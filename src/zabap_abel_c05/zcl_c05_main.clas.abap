@@ -551,10 +551,6 @@ CLASS zcl_c05_main IMPLEMENTATION.
     ENDLOOP.
 
 
-
-
-
-
   ENDMETHOD.
 
 ENDCLASS.
