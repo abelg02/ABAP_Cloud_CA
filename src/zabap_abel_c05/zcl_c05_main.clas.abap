@@ -334,6 +334,226 @@ CLASS zcl_c05_main IMPLEMENTATION.
 
     ENDLOOP.
 
+    "UNASSIGN"
+    "Sirve para liberar un apuntador o por si estamos trabajando con datos sensibles en nuestra ejecución después de haber hecho todos"
+    "los procesos"
+
+    "UNASSIGN después de procesar"
+    out->write( |============================| ).
+    out->write( |PROCESAR PRECIO Y LIBERAR FS| ).
+    out->write( |============================| ).
+    out->write( |\n| ).
+
+    DATA lv_precio_unassign TYPE p LENGTH 10 DECIMALS 2 VALUE '100.00'.
+    out->write( |Precio original: { lv_precio_unassign }| ).
+
+    "Asignar Field Symbol"
+    ASSIGN lv_precio TO FIELD-SYMBOL(<precio>).
+    out->write( |FS asignado: { <precio> }| ).
+
+
+    "Aplicar IVA 21%"
+    <precio> = <precio> * '1.21'.
+    out->write( |Con IVA (21%): { <precio> }| ).
+    out->write( |\n| ).
+
+    "Liberar Field Symbol"
+    UNASSIGN <precio>.
+
+
+    out->write( |UNASSIGN ejecutado| ).
+    out->write( | El FS ya no apunta al precio| ).
+    out->write( | El dato original sigue { lv_precio_unassign }| ).
+
+
+    "Agregar reserva al final"
+    out->write( |\n| ).
+    out->write( |======================| ).
+    out->write( |NUEVA RESERVA DE VUELO| ).
+    out->write( |======================| ).
+    out->write( |\n| ).
+
+    "Leer reservas existentes"
+    SELECT FROM /dmo/booking
+        FIELDS booking_id,
+               customer_id,
+               carrier_id,
+               connection_id,
+               flight_date
+        INTO TABLE @DATA(lt_bookings)
+        UP TO 3 ROWS.
+
+    out->write( |Reservas actuales: { lines( lt_bookings ) }| ).
+
+    IF lt_bookings IS NOT INITIAL.
+      LOOP AT lt_bookings INTO DATA(ls_book).
+        out->write( |{ ls_book-booking_id } - Cliente { ls_book-customer_id }| ).
+      ENDLOOP.
+    ENDIF.
+
+    "APPEND: Nueva reserva
+    out->write( |\n| ).
+    out->write( |Agregar nueva reserva| ).
+
+    "APPEND con Field Symbol"
+    APPEND INITIAL LINE TO lt_bookings ASSIGNING FIELD-SYMBOL(<new_booking>).
+
+    "Rellenar datos"
+    <new_booking>-booking_id = '9999'.
+    <new_booking>-customer_id = '000001'.
+    <new_booking>-carrier_id = 'AA'.
+    <new_booking>-connection_id = '0017'.
+    <new_booking>-flight_date = cl_abap_context_info=>get_system_date( ).
+
+    out->write( |\n Reserva agregada:| ).
+    out->write( |   ID: { <new_booking>-booking_id }| ).
+    out->write( |   Cliente: { <new_booking>-customer_id }| ).
+    out->write( |   Vuelo: { <new_booking>-carrier_id } { <new_booking>-connection_id }| ).
+    out->write( |\n| ).
+    out->write( |Total de reservas ahora: { lines( lt_bookings ) }| ).
+
+
+    "Insertar cliente VIP en posición 1"
+    out->write( |\n| ).
+    out->write( |======================| ).
+    out->write( |LISTA DE CLIENTES| ).
+    out->write( |======================| ).
+    out->write( |\n| ).
+
+    "Leer clientes"
+    SELECT FROM /dmo/customer
+            FIELDS customer_id,
+            first_name,
+            last_name,
+            city
+         INTO TABLE @DATA(lt_customers_insert)
+         UP TO 3 ROWS.
+
+    out->write( |LISTA ORIGINAL:| ).
+
+    DATA(lv_pos) = 1.
+
+    LOOP AT lt_customers_insert INTO DATA(ls_cust).
+      out->write( |{ lv_pos }. { ls_cust-customer_id } - { ls_cust-first_name } { ls_cust-last_name }| ).
+      lv_pos = lv_pos + 1.
+    ENDLOOP.
+
+    "INSERT en posición 1"
+    out->write( |\n| ).
+    out->write( |Insertar cliente VIP en posición 1...| ).
+
+    "INSERT con Field Symbol"
+    INSERT INITIAL LINE INTO lt_customers_insert
+            ASSIGNING FIELD-SYMBOL(<vip_customer>)
+            INDEX 1.
+
+    <vip_customer>-customer_id = '999999'.
+    <vip_customer>-first_name = 'Abel'.
+    <vip_customer>-last_name = 'González'.
+    <vip_customer>-city = 'Madrid'.
+
+    out->write( |Cliente VIP insertado al principio| ).
+
+    "Mostrar lista actualizada"
+    out->write( |\n| ).
+    out->write( |LISTA ACTUALIZADA:| ).
+
+    lv_pos = 1.
+
+
+    LOOP AT lt_customers_insert ASSIGNING FIELD-SYMBOL(<cust>).
+      DATA(lv_tag) = COND string(
+          WHEN <cust>-customer_id = '999999'
+          THEN 'VIP'
+          ELSE '' ).
+      out->write( |{ lv_pos }. { <cust>-customer_id } - { <cust>-first_name } { <cust>-last_name } { lv_tag }| ).
+      lv_pos = lv_pos + 1.
+    ENDLOOP.
+
+
+    "Buscar vuelo específico"
+    out->write( |\n| ).
+    out->write( |=========================| ).
+    out->write( |BUSCAR Y ACTUALIZAR VUELO| ).
+    out->write( |=========================| ).
+    out->write( |\n| ).
+
+    "Leer vuelos"
+    SELECT FROM /dmo/flight
+        FIELDS carrier_id,
+                connection_id,
+                flight_date,
+                price,
+                currency_code
+        WHERE carrier_id = 'LH'
+        INTO TABLE @DATA(lt_flights_read)
+        UP TO 5 ROWS.
+
+    IF lt_flights_read IS INITIAL.
+      out->write( |No hay vuelos| ).
+      RETURN.
+    ENDIF.
+
+    out->write( |Vuelos en sistema:| ).
+
+    LOOP AT lt_flights_read INTO DATA(ls_flight_read).
+      out->write( | { ls_flight_read-carrier_id } { ls_flight_read-connection_id } - { ls_flight_read-price } { ls_flight_read-currency_code }| ).
+    ENDLOOP.
+
+
+    "READ: Buscar vuelo específico"
+    out->write( |\n| ).
+    out->write( |Buscar vuelo LH 0400...| ).
+
+
+    "READ TABLE con Field Symbol"
+    READ TABLE lt_flights_read
+        ASSIGNING FIELD-SYMBOL(<flight_read>)
+        WITH KEY carrier_id = 'LH'
+                 connection_id = '0400'.
+
+    IF sy-subrc = 0.
+      out->write( |Vuelo encontrado:| ).
+      out->write( |Precio actual: { <flight_read>-price } { <flight_read>-currency_code }| ).
+
+      "Aplicar descuento especial"
+      DATA(lv_precio_flight_anterior) = <flight_read>-price.
+      <flight_read>-price = <flight_read>-price * '0.85'.
+      out->write( | Descuento 15% aplicado| ).
+      out->write( | Precio nuevo: { <flight_read>-price } { <flight_read>-currency_code }| ).
+
+
+    ELSE.
+      out->write( |Vuelo no encontrado| ).
+    ENDIF.
+
+
+    "READ: Por índice"
+
+    out->write( |\n| ).
+    out->write( |Leer vuelo en posición 2...| ).
+
+    READ TABLE lt_flights_read
+            ASSIGNING FIELD-SYMBOL(<flight_read2>)
+            INDEX 2.
+
+    IF sy-subrc = 0.
+      out->write( | { <flight_read2>-carrier_id } { <flight_read2>-connection_id } - { <flight_read2>-price } { <flight_read2>-currency_code }| ).
+    ENDIF.
+
+
+    "Mostrar tabla final"
+    out->write( |\n| ).
+    out->write( |VUELOS ACTUALIZADOS:| ).
+
+    LOOP AT lt_flights_read ASSIGNING FIELD-SYMBOL(<f>).
+      out->write( | { <f>-carrier_id } { <f>-connection_id } - { <f>-price } { <f>-currency_code } | ).
+    ENDLOOP.
+
+
+
+
+
 
   ENDMETHOD.
 
