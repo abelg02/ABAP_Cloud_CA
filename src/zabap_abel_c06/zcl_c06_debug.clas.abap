@@ -1,4 +1,4 @@
-CLASS zcl_c06_main DEFINITION
+CLASS zcl_c06_debug DEFINITION
   PUBLIC
   FINAL
   CREATE PUBLIC .
@@ -11,8 +11,10 @@ ENDCLASS.
 
 
 
-CLASS zcl_c06_main IMPLEMENTATION.
+CLASS zcl_c06_debug IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
+
+    "DEPURACIÓN"
 
     "En este tema veremos las herramientas que más vamos a utilizar si queremos hacer seguimiento de nuestro código"
     "El Depurador/Debugger sirve para analizar problemas en el código que se puedan presentar en tiempo de ejecución"
@@ -209,6 +211,19 @@ CLASS zcl_c06_main IMPLEMENTATION.
     "BREAKPOINT AQUÍ"
     "Presiona f8 -> termina el programa"
     out->write( |=== FIN DEL PROGRAMA ===| ).
+
+
+
+
+
+    "PROGRAMACIÓN DINÁMICA Y RENDIMIENTO"
+    "La programación dinámica en ABAP se refiera a la capacidad de escribir código que puede adaptarse en tiempo de ejecución"
+    "Es decir, algunas cosas se deciden cuando el programa ya está en ejecución"
+    "Programación estática (todos los temas anteriores): ordear un café con leche en un restaurante, en este caso sabríamos lo que queremos exactamente desde el inicio"
+    "Programación dinámica: decirle al mesero que traiga la bebida de la posición 3 del menú (no sabe qué bebida es hasta que mira el menú)"
+
+    "EJEMPLO 1: FIELD SYMBOLS BÁSICO- Modificar una estructura"
+    out->write( |=== EJEMPLO 1: Field Symbol Básico ===| ).
 
 
 
