@@ -76,7 +76,7 @@ CLASS zcl_c06_performance_02 IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
-    DATA(lo_flights) = NEW zcl_c06_performance_02( ).
+    DATA(lo_flights) = NEW zcl_c06_performance_02( ). "Instancia de la clase."
     lo_flights->standard( ).
     lo_flights->sort( ).
     lo_flights->hash( ).

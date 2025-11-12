@@ -16,10 +16,10 @@ CLASS zcl_c06_debug IMPLEMENTATION.
 
     "DEPURACIÓN"
 
-    "En este tema veremos las herramientas que más vamos a utilizar si queremos hacer seguimiento de nuestro código"
-    "El Depurador/Debugger sirve para analizar problemas en el código que se puedan presentar en tiempo de ejecución"
+    "En este tema veremos las herramientas que más vamos a utilizar si queremos hacer seguimiento de nuestro código."
+    "El Depurador/Debugger sirve para analizar problemas en el código que se puedan presentar en tiempo de ejecución."
 
-    "Si no conseguimos ver las variables ni el debugger lo que tenemos que hacer es ir a window -> preferences -> abap development -> debug y activar el primer botón"
+    "Si no conseguimos ver las variables ni el debugger lo que tenemos que hacer es ir a window -> preferences -> abap development -> debug y activar el primer botón."
 
     "Tenemos los llamados breakpoint que los añadimos para poder hacer pausas en nuestro código"
     "Luego de hacemos la inspección de variables en tiempo real y también podemos modificar las variables en tiempo de ejecución"
@@ -28,7 +28,7 @@ CLASS zcl_c06_debug IMPLEMENTATION.
 
     "Esto solo lo haremos para hacer comprobaciones del código, no como producto final para el usuario"
 
-    "Para deshabilitar breakpoint hacemos clic derecho en él y lo deshabilitamos"
+    "Para deshabilitar breakpoint hacemos clic derecho sobre él y lo deshabilitamos"
 
     "Con las teclas de arriba en las funciones del depurador podemos hacer varias cosas:"
     "Terminate: Finaliza el debugger sin mostrar nada por consola que haya después del breakpoint"
@@ -211,19 +211,6 @@ CLASS zcl_c06_debug IMPLEMENTATION.
     "BREAKPOINT AQUÍ"
     "Presiona f8 -> termina el programa"
     out->write( |=== FIN DEL PROGRAMA ===| ).
-
-
-
-
-
-    "PROGRAMACIÓN DINÁMICA Y RENDIMIENTO"
-    "La programación dinámica en ABAP se refiera a la capacidad de escribir código que puede adaptarse en tiempo de ejecución"
-    "Es decir, algunas cosas se deciden cuando el programa ya está en ejecución"
-    "Programación estática (todos los temas anteriores): ordear un café con leche en un restaurante, en este caso sabríamos lo que queremos exactamente desde el inicio"
-    "Programación dinámica: decirle al mesero que traiga la bebida de la posición 3 del menú (no sabe qué bebida es hasta que mira el menú)"
-
-    "EJEMPLO 1: FIELD SYMBOLS BÁSICO- Modificar una estructura"
-    out->write( |=== EJEMPLO 1: Field Symbol Básico ===| ).
 
 
 

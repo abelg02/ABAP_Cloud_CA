@@ -62,6 +62,9 @@ CLASS zcl_c06_performance_01 IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
+    DATA(lo_flights) = NEW zcl_c06_performance_01( ). "Instancia de la clase."
+    lo_flights->structure( ).
+    lo_flights->field_symbol( ).
     out->write( 'OK' ).
 
   ENDMETHOD.

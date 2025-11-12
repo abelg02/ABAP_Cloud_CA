@@ -17,10 +17,10 @@ CLASS zcl_c06_dynamic IMPLEMENTATION.
 
     "PROGRAMACIÓN DINÁMICA Y RENDIMIENTO"
     "La programación dinámica en ABAP se refiera a la capacidad de escribir código que puede adaptarse en tiempo de ejecución"
-    "Es decir, algunas cosas se deciden cuando el programa ya está en ejecución"
-    "Programación estática (todos los temas anteriores): ordear un café con leche en un restaurante, en este caso sabríamos lo que queremos exactamente desde el inicio"
+    "Es decir, algunas cosas se deciden cuando el programa ya está en ejecución."
+    "Programación estática (todos los temas anteriores): ordear un café con leche en un restaurante, en este caso sabríamos lo que queremos exactamente desde el inicio."
     "Programación dinámica: decirle al mesero que traiga la bebida de la posición 3 del menú (no sabe qué bebida es hasta que mira el menú)"
-
+    "Usualmente no usaremos la programación dinámica. La usaremos por ejemplo cuando el tipo de dato no se conoce hasta el tiempo de ejecución"
 
     "EJEMPLOS PRÁCTICOS DE TEMAS ANTERIORES"
 
