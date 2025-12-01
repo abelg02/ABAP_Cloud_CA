@@ -53,7 +53,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_71_connections2 IMPLEMENTATION.
+CLASS ZCL_71_CONNECTIONS2 IMPLEMENTATION.
+
 
   METHOD create.
 
@@ -67,9 +68,11 @@ CLASS zcl_71_connections2 IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD class_constructor.
 
   ENDMETHOD.
+
 
   METHOD constructor.
 
@@ -163,5 +166,4 @@ DATA connection TYPE REF TO lcl_connection.
 
     ENDLOOP.
   endmethod.
-
 ENDCLASS.

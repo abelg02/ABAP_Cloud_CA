@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_c07_main IMPLEMENTATION.
+CLASS ZCL_C07_MAIN IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
     "Diccionarios: los diccionarios funcionarán como la capa entre nuestro código ABAP y la base de datos de SAP HANA"
@@ -111,5 +113,4 @@ CLASS zcl_c07_main IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

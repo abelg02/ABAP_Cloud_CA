@@ -24,18 +24,23 @@ PUBLIC
 ENDCLASS.
 
 
-CLASS zcl_c06_performance_02 IMPLEMENTATION.
+
+CLASS ZCL_C06_PERFORMANCE_02 IMPLEMENTATION.
+
+
   METHOD hash.
     DATA(result) = lt_hash[ travel_id    = me->key_travel_id
                             booking_id   = me->key_booking_id
                             booking_date = me->key_date ].
   ENDMETHOD.
 
+
   METHOD sort.
     DATA(result) = lt_sort[ travel_id    = me->key_travel_id
                             booking_id   = me->key_booking_id
                             booking_date = me->key_date ].
   ENDMETHOD.
+
 
   METHOD constructor.
 
@@ -58,11 +63,13 @@ CLASS zcl_c06_performance_02 IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD standard.
     DATA(result) = lt_standard[ travel_id    = me->key_travel_id
                                 booking_id   = me->key_booking_id
                                 booking_date = me->key_date ].
   ENDMETHOD.
+
 
   METHOD set_line_to_read.
     DATA(lv_data) = lt_standard[ CONV i( lines( lt_standard ) * '0.65' ) ].
@@ -73,6 +80,7 @@ CLASS zcl_c06_performance_02 IMPLEMENTATION.
     me->key_date = lv_data-booking_date.
 
   ENDMETHOD.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -86,5 +94,4 @@ CLASS zcl_c06_performance_02 IMPLEMENTATION.
     out->write( me->key_date ).
 
   ENDMETHOD.
-
 ENDCLASS.

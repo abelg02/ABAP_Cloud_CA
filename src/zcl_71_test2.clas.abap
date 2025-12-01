@@ -12,7 +12,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_71_test2 IMPLEMENTATION.
+CLASS ZCL_71_TEST2 IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

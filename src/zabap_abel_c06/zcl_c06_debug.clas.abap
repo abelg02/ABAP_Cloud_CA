@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_c06_debug IMPLEMENTATION.
+CLASS ZCL_C06_DEBUG IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
     "DEPURACIÓN"
@@ -215,5 +217,4 @@ CLASS zcl_c06_debug IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

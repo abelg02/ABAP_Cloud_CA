@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_c06_dynamic IMPLEMENTATION.
+CLASS ZCL_C06_DYNAMIC IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
 
@@ -266,5 +268,4 @@ CLASS zcl_c06_dynamic IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

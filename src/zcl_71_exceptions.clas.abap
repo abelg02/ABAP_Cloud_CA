@@ -28,7 +28,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_71_exceptions IMPLEMENTATION.
+CLASS ZCL_71_EXCEPTIONS IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -72,6 +72,7 @@ enddo.
 
   ENDMETHOD.
 
+
   METHOD get_output.
 
 
@@ -81,6 +82,7 @@ enddo.
 
 
   ENDMETHOD.
+
 
   METHOD set_attributes.
 
@@ -92,5 +94,4 @@ enddo.
   connection_id = i_connection_id.
 
   ENDMETHOD.
-
 ENDCLASS.

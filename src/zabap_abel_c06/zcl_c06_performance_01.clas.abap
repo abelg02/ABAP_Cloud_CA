@@ -17,7 +17,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_c06_performance_01 IMPLEMENTATION.
+CLASS ZCL_C06_PERFORMANCE_01 IMPLEMENTATION.
+
 
   METHOD field_symbol.
 
@@ -31,6 +32,7 @@ CLASS zcl_c06_performance_01 IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD structure.
 
     DATA lt_flights TYPE lty_flights.
@@ -43,6 +45,7 @@ CLASS zcl_c06_performance_01 IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD loop_fs.
 
     LOOP AT c_flights ASSIGNING FIELD-SYMBOL(<lfs_flight>).
@@ -50,6 +53,7 @@ CLASS zcl_c06_performance_01 IMPLEMENTATION.
     ENDLOOP.
 
   ENDMETHOD.
+
 
   METHOD loop_struct.
 
@@ -60,6 +64,7 @@ CLASS zcl_c06_performance_01 IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD if_oo_adt_classrun~main.
 
     DATA(lo_flights) = NEW zcl_c06_performance_01( ). "Instancia de la clase."
@@ -68,6 +73,4 @@ CLASS zcl_c06_performance_01 IMPLEMENTATION.
     out->write( 'OK' ).
 
   ENDMETHOD.
-
-
 ENDCLASS.

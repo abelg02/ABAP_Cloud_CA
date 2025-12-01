@@ -28,7 +28,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_71_connections IMPLEMENTATION.
+CLASS ZCL_71_CONNECTIONS IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -79,5 +79,4 @@ CLASS zcl_71_connections IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

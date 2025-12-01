@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_c05_main IMPLEMENTATION.
+CLASS ZCL_C05_MAIN IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
     "REF"
@@ -552,5 +554,4 @@ CLASS zcl_c05_main IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

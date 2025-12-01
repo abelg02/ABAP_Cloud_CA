@@ -19,7 +19,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_c06_performance_03 IMPLEMENTATION.
+CLASS ZCL_C06_PERFORMANCE_03 IMPLEMENTATION.
+
 
   METHOD constructor.
     SELECT FROM /dmo/booking_m
@@ -31,6 +32,7 @@ CLASS zcl_c06_performance_03 IMPLEMENTATION.
      INTO TABLE @lt_sort_with_sk.
   ENDMETHOD.
 
+
   METHOD read_non_key. "Leyendo sin usar la clave primaria, ninguna clave
 *    LOOP AT lt_sort INTO DATA(ls_sort) WHERE flight_date = '20240801'.
 *
@@ -38,23 +40,28 @@ CLASS zcl_c06_performance_03 IMPLEMENTATION.
     DATA(ls_flight_without_key) = lt_sort[ flight_date = '20260522'  ].
   ENDMETHOD.
 
+
   METHOD read_primary.
     DATA(ls_flight) = lt_sort[ travel_id    = '00000013'
                                booking_id   = '0003'
                                booking_date = '20260522'       ].
   ENDMETHOD.
 
+
   METHOD read_secondary_1.
     DATA(ls_scnd_key1) = lt_sort_with_sk[  KEY sk_carrier carrier_id = 'AA' ]. "Usando por primera vez la clave secundaria CARRIER_ID
   ENDMETHOD.
+
 
   METHOD read_secondary_2.
     DATA(ls_scnd_key2) = lt_sort_with_sk[  KEY sk_carrier carrier_id = 'AA' ]. "Usando por primera vez la clave secundaria CARRIER_ID.
   ENDMETHOD.
 
+
   METHOD read_secondary_3.
     DATA(ls_scnd_key3) = lt_sort_with_sk[  KEY sk_carrier carrier_id = 'AA' ]. "Usando por primera vez la clave secundaria CARRIER_ID
   ENDMETHOD.
+
 
   METHOD if_oo_adt_classrun~main.
     DATA(object) = NEW zcl_c06_performance_03( ).

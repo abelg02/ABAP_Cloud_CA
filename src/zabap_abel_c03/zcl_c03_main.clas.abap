@@ -11,7 +11,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_c03_main IMPLEMENTATION.
+CLASS ZCL_C03_MAIN IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -304,5 +305,4 @@ CLASS zcl_c03_main IMPLEMENTATION.
 
 
   ENDMETHOD.
-
 ENDCLASS.

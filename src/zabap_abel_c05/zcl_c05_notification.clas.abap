@@ -16,7 +16,9 @@ CLASS zcl_c05_notification DEFINITION
 ENDCLASS.
 
 
-CLASS zcl_c05_notification IMPLEMENTATION.
+
+CLASS ZCL_C05_NOTIFICATION IMPLEMENTATION.
+
 
   METHOD constructor.
     mv_destinatario = iv_destinatario.
@@ -24,8 +26,8 @@ CLASS zcl_c05_notification IMPLEMENTATION.
     mv_prioridad = iv_prioridad.
   ENDMETHOD.
 
+
   METHOD enviar.
     "Lógica de envío aquí"
   ENDMETHOD.
-
 ENDCLASS.
