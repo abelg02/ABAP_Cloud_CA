@@ -3,9 +3,9 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_C07_PRACTICE_01</CLSNAME>
+    <CLSNAME>ZCL_C07_C08_MAIN</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Practice Class</DESCRIPT>
+    <DESCRIPT>Seventh - Eighth Class</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>

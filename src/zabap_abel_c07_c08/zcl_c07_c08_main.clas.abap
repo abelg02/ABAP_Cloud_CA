@@ -1,4 +1,4 @@
-CLASS zcl_c07_main DEFINITION
+CLASS zcl_c07_c08_main DEFINITION
   PUBLIC
   FINAL
   CREATE PUBLIC .
@@ -11,8 +11,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_c07_main IMPLEMENTATION.
-
+CLASS zcl_c07_c08_main IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
@@ -65,29 +64,29 @@ CLASS zcl_c07_main IMPLEMENTATION.
 
     "Para hace uso de esta estructura del diccionario de datos hacemos lo siguiente:"
 
-    DATA(ls_employee) = VALUE zst_employee_c07( employee_id = 1
-                                                name        = 'Abel'
-                                                last_name   = 'González'
-                                                age         = '22'
-                                                sex         = 'M'
-                                                address-address_id  = 1
-                                                address-street_name = 'Street 1'
-                                                address-int_number  = 2
-                                                address-city         = 'New York'
-                                                ).
+    DATA(ls_employee) = VALUE zst_emp_c07_c08( employee_id = 1
+                                               name        = 'Abel'
+                                               last_name   = 'González'
+                                               age         = '22'
+                                               sex         = 'M'
+                                               address-address_id  = 1
+                                               address-street_name = 'Street 1'
+                                               address-int_number  = 2
+                                               address-city         = 'New York'
+                                               ).
 
     "Para mejorar la vista por consola asignaremos el include a nuestra estructura de address con include
 
-*    DATA(ls_employee) = VALUE zst_employee_c07( employee_id = 1
-*                                                name        = 'Abel'
-*                                                last_name   = 'González'
-*                                                age         = '22'
-*                                                sex         = 'M'
-*                                                address_id  = 1
-*                                                street_name = 'Street 1'
-*                                                int_number  = 2
-*                                                city         = 'New York'
-*                                                ).
+*    DATA(ls_employee) = VALUE zst_emp_c07_c08( employee_id = 1
+*                                               name        = 'Abel'
+*                                               last_name   = 'González'
+*                                               age         = '22'
+*                                               sex         = 'M'
+*                                               address_id  = 1
+*                                               street_name = 'Street 1'
+*                                               int_number  = 2
+*                                               city         = 'New York'
+*                                               ).
 *
 *    out->write( ls_employee ).
 
@@ -96,24 +95,24 @@ CLASS zcl_c07_main IMPLEMENTATION.
     "Es una tabla interna reutilizable, es decir, de forma global"
     "En la categoría podemos pasarle un tipo predefinido o un tipo del diccionario que creamos previamente (ZST_EMPLOYEE_C07)"
 
-    DATA(lt_emp_addr) = VALUE ztt_emp_address_c07( ( address-address_id  = 1
-                                                     address-street_name = 'Street 1'
-                                                     address-int_number  = 2
-                                                     address-city         = 'New York' )
+    DATA(lt_emp_addr) = VALUE ZTT_EMP_ADDR_C07_C08( ( address-address_id  = 1
+                                                      address-street_name = 'Street 1'
+                                                      address-int_number  = 2
+                                                      address-city         = 'New York' )
 
                                                     ( address-address_id  = 2
-                                                     address-street_name = 'Street 2'
-                                                     address-int_number  = 2
-                                                     address-city         = 'New York'
-                                                     ) ).
+                                                      address-street_name = 'Street 2'
+                                                      address-int_number  = 2
+                                                      address-city         = 'New York'
+                                                      ) ).
 
 
     out->write( lt_emp_addr ).
 
 
-    "Cómo insertar datos en mi tabla (Database table: ZEMPLOYEE_C07)"
+    "Cómo insertar datos en mi tabla (Database table: ZEMP_C07_C08)"
 
-*    MODIFY zemployee_c383 FROM TABLE @( VALUE #( ( emp_id         = 1
+*    MODIFY ZEMP_C07_C08 FROM TABLE @( VALUE #( (   emp_id         = 1
 *                                                   emp_first_name = 'Enrique'
 *                                                   emp_last_name  = 'Irala'
 *                                                   emp_age        = 30
@@ -224,7 +223,7 @@ CLASS zcl_c07_main IMPLEMENTATION.
 
 * Global Temporary Table
 
-*    DATA: lt_employee TYPE STANDARD TABLE OF zemployee_gt_c07.
+*    DATA: lt_employee TYPE STANDARD TABLE OF ZEMP_GT_C07_C08.
 *
 *    lt_employee = VALUE #( ( emp_id = 1
 *                             emp_first_name = 'Enrique'
@@ -237,11 +236,11 @@ CLASS zcl_c07_main IMPLEMENTATION.
 *                             emp_age        = '36'
 *                             emp_role       = 'Manager' )  ).
 *
-*    MODIFY zemployee_gt_c07 FROM TABLE @lt_employee.
+*    MODIFY ZEMP_GT_C07_C08 FROM TABLE @lt_employee.
 *
 *    IF sy-subrc = 0.
 *
-*      SELECT * FROM zemployee_gt_c07 INTO TABLE @DATA(lt_results).
+*      SELECT * FROM ZEMP_GT_C07_C08 INTO TABLE @DATA(lt_results).
 *
 *      out->write( lt_results ).
 *
@@ -249,9 +248,9 @@ CLASS zcl_c07_main IMPLEMENTATION.
 
 * Dynamic Cache
 
-GET TIME STAMP FIELD DATA(lv_begin).
+    GET TIME STAMP FIELD DATA(lv_begin).
 
-    SELECT FROM zemployee_c07
+    SELECT FROM ZEMP_C07_C08
     FIELDS currency,
            SUM( emp_salary ) AS TotalSalary
     GROUP BY currency
@@ -267,10 +266,6 @@ GET TIME STAMP FIELD DATA(lv_begin).
       out->write( lt_salary ).
       out->write( |Execution Time: { lv_dif }| ).
     ENDIF.
-
-
-
-
 
   ENDMETHOD.
 ENDCLASS.

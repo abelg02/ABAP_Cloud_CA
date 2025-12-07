@@ -3,12 +3,12 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD01V>
-    <DOMNAME>ZDO_EMP_ID_C07</DOMNAME>
+    <DOMNAME>ZDO_NAME_C07_C08</DOMNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DATATYPE>INT1</DATATYPE>
-    <LENG>000003</LENG>
-    <OUTPUTLEN>000003</OUTPUTLEN>
-    <DDTEXT>Employee ID</DDTEXT>
+    <DATATYPE>CHAR</DATATYPE>
+    <LENG>000030</LENG>
+    <OUTPUTLEN>000030</OUTPUTLEN>
+    <DDTEXT>Employee Name</DDTEXT>
     <DOMMASTER>E</DOMMASTER>
    </DD01V>
   </asx:values>

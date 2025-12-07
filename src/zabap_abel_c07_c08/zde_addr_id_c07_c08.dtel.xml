@@ -3,20 +3,21 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <DD04V>
-    <ROLLNAME>ZDE_NAME_C07</ROLLNAME>
+    <ROLLNAME>ZDE_ADDR_ID_C07_C08</ROLLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DOMNAME>ZDO_NAME_C07</DOMNAME>
     <HEADLEN>55</HEADLEN>
     <SCRLEN1>10</SCRLEN1>
     <SCRLEN2>20</SCRLEN2>
     <SCRLEN3>40</SCRLEN3>
-    <DDTEXT>Employee Name</DDTEXT>
-    <REPTEXT>Employee Name</REPTEXT>
-    <SCRTEXT_S>EmpName</SCRTEXT_S>
-    <SCRTEXT_M>Employee Name</SCRTEXT_M>
-    <SCRTEXT_L>Employee Name</SCRTEXT_L>
+    <DDTEXT>Employee Addr</DDTEXT>
+    <REPTEXT>Address ID</REPTEXT>
+    <SCRTEXT_S>Addr ID</SCRTEXT_S>
+    <SCRTEXT_M>Address ID</SCRTEXT_M>
+    <SCRTEXT_L>Address ID</SCRTEXT_L>
     <DTELMASTER>E</DTELMASTER>
-    <REFKIND>D</REFKIND>
+    <DATATYPE>CHAR</DATATYPE>
+    <LENG>000004</LENG>
+    <OUTPUTLEN>000004</OUTPUTLEN>
     <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
    </DD04V>
   </asx:values>

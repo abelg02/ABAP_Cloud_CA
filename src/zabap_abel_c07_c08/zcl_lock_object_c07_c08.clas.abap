@@ -1,4 +1,4 @@
-CLASS zcl_lock_object_c07 DEFINITION
+CLASS zcl_lock_object_c07_c08 DEFINITION
   PUBLIC
   FINAL
   CREATE PUBLIC .
@@ -11,7 +11,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_lock_object_c07 IMPLEMENTATION.
+CLASS zcl_lock_object_c07_c08 IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
@@ -20,7 +20,7 @@ CLASS zcl_lock_object_c07 IMPLEMENTATION.
     "Creo una instancia de objeto de bloqueo"
     TRY.
 
-        DATA(lo_lock_object) = cl_abap_lock_object_factory=>get_instance( iv_name = 'EZEMP_C07' ).
+        DATA(lo_lock_object) = cl_abap_lock_object_factory=>get_instance( iv_name = 'EZEMP_C07_C08' ).
 
       CATCH cx_abap_lock_failure.
         out->write( |Lock Object Instance not created| ).
@@ -51,15 +51,15 @@ CLASS zcl_lock_object_c07 IMPLEMENTATION.
     out->write( |Lock Object is active| ).
 
     "Modifico el objeto"
-    DATA(ls_employee) = VALUE zemployee_c07( emp_id = 1
-                                             emp_first_name = 'Enrique'
-                                             emp_last_name  = 'Irala'
-                                             emp_age        = 36
-                                             emp_role       = 'Manager'
-                                             emp_addr_id    = '1-1'
-                                             emp_email      = 'lopez@logali.com' ).
+    DATA(ls_employee) = VALUE zemp_c07_c08( emp_id = 1
+                                            emp_first_name = 'Enrique'
+                                            emp_last_name  = 'Irala'
+                                            emp_age        = 36
+                                            emp_role       = 'Manager'
+                                            emp_addr_id    = '1-1'
+                                            emp_email      = 'lopez@logali.com' ).
 
-    MODIFY zemployee_c07 FROM @ls_employee.
+    MODIFY zemp_c07_c08 FROM @ls_employee.
 
     IF sy-subrc = 0.
       out->write( |Object Updated in DB| ).
