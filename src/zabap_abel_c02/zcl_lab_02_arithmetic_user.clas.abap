@@ -34,7 +34,7 @@ CLASS zcl_lab_02_arithmetic_user IMPLEMENTATION.
     "● lv_medical_service_rate asignándole el valor de “15”."
     "● lv_total_rate."
 
-    "Aplicar la operación de sumatoria utilizando el carácter “+” donde se guarda el resultado de la operación en la tercera variable aplicada"
+    "Aplicar la operación de sumatoria utilizando el carácter “+” donde se guarda el resultado de la operación en la cuarta variable aplicada"
     "sobre las variables con valor (primeras tres). Al resultado final suma el valor “5” utilizando la sentencia “add”."
 
     "2.2. Resta / Sentencia subtract"
@@ -92,6 +92,102 @@ CLASS zcl_lab_02_arithmetic_user IMPLEMENTATION.
     "● lv_square_root."
 
     "Obtener la raíz cuadrada del valor de la variable lv_expo de la actividad anterior."
+
+    "2.1. Suma / Sentencia ADD"
+    DATA: lv_base_rate            TYPE i VALUE 20,
+          lv_corp_area_rate       TYPE i VALUE 10,
+          lv_medical_service_rate TYPE i VALUE 15,
+          lv_total_rate           TYPE i.
+
+    lv_total_rate = lv_base_rate + lv_corp_area_rate + lv_medical_service_rate.
+    out->write( |Total Rate (Suma): { lv_total_rate }| ).
+
+    "Por motivo de buenas prácticas se evitará usar la sentencia ADD, ya que está quedando obsoleta"
+    "ADD 5 TO lv_total_rate."
+    lv_total_rate += 5.
+    out->write( |Total Rate (Suma + ADD): { lv_total_rate }| ).
+
+
+
+    "2.2. Resta / Sentencia SUBTRACT"
+    DATA: lv_maintenance_rate TYPE i VALUE 30,
+          lv_margin_rate      TYPE i VALUE 10,
+          lv_base_rate_sub    TYPE i.
+
+    lv_base_rate_sub = lv_maintenance_rate - lv_margin_rate.
+    out->write( |Base Rate (Resta): { lv_base_rate_sub }| ).
+
+    "Por motivo de buenas prácticas se evitará usar la sentencia SUBTRACT, ya que está quedando obsoleta"
+    "SUBTRACT 4 FROM lv_base_rate_sub."
+    lv_base_rate_sub -= 4.
+    out->write( |Base Rate (Resta - SUBTRACT): { lv_base_rate_sub }| ).
+
+
+
+    "2.3. Multiplicación / Sentencia MULTIPLY"
+    DATA: lv_package_weight TYPE i VALUE 2,
+          lv_cost_per_kg    TYPE i VALUE 3,
+          lv_multi_rate     TYPE i.
+
+    lv_multi_rate = lv_package_weight * lv_cost_per_kg.
+    out->write( |Multi Rate (Multiplicación): { lv_multi_rate }| ).
+
+    "Por motivo de buenas prácticas se evitará usar la sentencia MULTIPLY, ya que está quedando obsoleta"
+    "MULTIPLY lv_multi_rate BY 2."
+    lv_multi_rate *= 2.
+    out->write( |Multi Rate (Multiplicación * MULTIPLY): { lv_multi_rate }| ).
+
+
+
+    "2.4. División / Sentencia DIVIDE"
+    DATA: lv_total_weight TYPE i VALUE 38,
+          lv_num_packages TYPE i VALUE 4,
+          lv_applied_rate TYPE p LENGTH 8 DECIMALS 2.
+
+    lv_applied_rate = lv_total_weight / lv_num_packages.
+    out->write( |Applied Rate (División): { lv_applied_rate }| ).
+
+    "Por motivo de buenas prácticas se evitará usar la sentencia DIVIDE, ya que está quedando obsoleta"
+    "DIVIDE lv_applied_rate BY 3."
+    lv_applied_rate /= 3.
+    out->write( |Applied Rate (División / DIVIDE): { lv_applied_rate }| ).
+
+
+
+    "2.5. División sin resto / Sentencia DIV"
+    DATA: lv_total_cost         TYPE i VALUE 17,
+          lv_discount_threshold TYPE i VALUE 4,
+          lv_result             TYPE p LENGTH 4 DECIMALS 2.
+
+    lv_result = lv_total_cost DIV lv_discount_threshold.
+    out->write( |Result (DIV): { lv_result }| ).
+
+
+
+    "2.6. Resto (residuo) de división / Sentencia MOD"
+    DATA: lv_total_cost_mod         TYPE i VALUE 19,
+          lv_discount_threshold_mod TYPE i VALUE 4,
+          lv_remainder              TYPE p LENGTH 4 DECIMALS 2.
+
+    lv_remainder = lv_total_cost_mod MOD lv_discount_threshold_mod.
+    out->write( |Resto (MOD): { lv_remainder }| ).
+
+
+
+    "2.7. Exponenciación"
+    DATA: lv_weight TYPE i VALUE 5,
+          lv_expo   TYPE i.
+
+    lv_expo = lv_weight ** 2.
+    out->write( |Exponenciación (cuadrado): { lv_expo }| ).
+
+
+
+    "2.8. Raíz cuadrada"
+    DATA: lv_square_root TYPE i.
+
+    lv_square_root = sqrt( lv_expo ).
+    out->write( |Raíz cuadrada: { lv_square_root }| ).
 
   ENDMETHOD.
 

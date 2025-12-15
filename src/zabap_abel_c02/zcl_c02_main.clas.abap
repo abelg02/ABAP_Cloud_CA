@@ -11,7 +11,7 @@ ENDCLASS.
 
 
 
-CLASS ZCL_C02_MAIN IMPLEMENTATION.
+CLASS zcl_c02_main IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.
@@ -35,7 +35,7 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
     lv_total = lv_num_a + lv_num_b + lv_total.
     out->write( | Total Suma: { lv_total } | ).
 
-    CLEAR lv_total. "Limpiamos variable"
+    CLEAR lv_total. "Limpiamos variable y la dejamos a cero"
     out->write( | Total variable limpia: { lv_total } | ).
 
 
@@ -118,13 +118,13 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
 
 
 
-    "ipow"
+    "ipow: también es exponenciación"
     DATA(lv_result) = ipow( base = 2 exp = 3 ).
     out->write( lv_result ).
 
 
 
-    "sqrt"
+    "sqrt: raíz cuadrada"
     lv_num_a = sqrt( 25 ).
     out->write( | Total SQRT: { lv_num_a }| ).
 
@@ -146,7 +146,7 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
     DATA: lv_string TYPE string VALUE 'LOGALI',
           lv_char   TYPE c LENGTH 2.
 
-    "Se intenta guardar "LOGALI" (6 caracteres) en una variable de solo 2
+    "Se intenta guardar "LOGALI" (6 caracteres) en una variable de solo 2 (se mostraría por pantalla 'LO').
     lv_char = lv_string.
     out->write( lv_char ).
 
@@ -170,7 +170,7 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
     DATA(lv_date_converter) = '20250101'. "mostrar así en el depurador e imprimir
     out->write( lv_date_converter ).
 
-    "Forma correcta y segura de convertir"
+    "Forma correcta y segura de convertir a tipo fecha"
     DATA(lv_date_converter2) = CONV d( '20250101' ).
     out->write( lv_date_converter2 ).
 
@@ -182,9 +182,9 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
     out->write( 'This is your first text symbol' ).
 
     "Forma correcta para que el texto se guarde en etiquetas fuera del programa"
-    "clic derecho y seleccionamos quick fix, creamos un text pool y pegamos el texto"
+    "Clic derecho y seleccionamos quick fix, creamos un text pool y pegamos el texto"
+    "Clic derecho open others > text elements"
     "Se abrirá un archivo text elements donde se mostrarán todos los textos que tenemos que guardar y listo"
-    "clic derecho open others > text elements"
     out->write( TEXT-001 ).
     out->write( TEXT-002 ).
 
@@ -246,7 +246,7 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
     out->write( |TO_UPPER   =  { to_upper( lv_string_processing ) }| ).
     "Convierte todo el texto a minúsculas"
     out->write( |TO_LOWER   =  { to_lower( lv_string_processing ) }| ).
-    "Pone solo la primera letra de cada palabra en mayúscula"
+    "Convierte el texto a mayúsculas y minúsculas según reglas mixtas"
     out->write( |TO_MIXED   =  { to_mixed( lv_string_processing ) }| ).
     "Hace lo contrario: pasa una cadena tipo título a minúsculas completas"
     out->write( |FROM_MIXED =  { from_mixed( lv_string_processing ) }| ).
@@ -426,26 +426,34 @@ CLASS ZCL_C02_MAIN IMPLEMENTATION.
     DATA(lv_text_comparation) = 'This is an example text for SAP ABAP programming.'.
 
     " COMODINES:"
-    " * = 0 o más caracteres"
+
+    " * = 0 o más caracteres según donde estén situados los asteriscos"
+    "Ejemplo: 'AB*CD' coincide con ABCD, AB12CD, AB--CD, etc. (porque entre AB y CD puede haber nada o cualquier cosa)."
+
     " + = 1 o más caracteres"
+    "Ejemplo: 'A+Z' coincide con ABZ o A123Z, pero no con AZ (porque tiene que haber al menos uno entre medias)."
+
     " # = Exactamente 1 caracter"
+    "Ejemplo: 'A#C' coincide con ABC o A1C, pero no con AC ni con ABBC."
 
     "CP (Contains Pattern) - verifica si contiene el patrón
     out->write( '--- Operador CP (Contains Pattern) ---' ).
+
+    "Comprueba si la cadena contiene 'SAP' en cualquier posición"
     IF lv_text_comparation CP '*SAP*'.
-      DATA(lv_match) = abap_true.
+      DATA(lv_match) = abap_true. "Si coincide, asigna verdadero a lv_match"
       out->write( 'El texto contiene el patrón "SAP"' ).
     ELSE.
-      lv_match = abap_false.
+      lv_match = abap_false. "Si no coincide, asigna falso a lv_match"
       out->write( 'El texto NO contiene el patrón "SAP"' ).
     ENDIF.
-    out->write( | | ).
+    out->write( | | ). "Salto de línea"
 
     "NP (Not contains pattern) - Verifica si no contiene el patrón
     out->write( '--- Operador NP (Not Contains Pattern) ---' ).
     "El patrón 'g+' busca 'g' seguida de al menos 1 caracter"
     "En 'programming.' hay 'g.' que coincide con ese patrón"
-    IF lv_text_comparation NP '*g+*'.
+    IF lv_text_comparation NP '*g+*'. "Comprueba que la cadena **no** contenga 'g' seguido de al menos un carácter"
       out->write( 'El texto NO contiene el patrón "g+"' ).
     ELSE.
       out->write( 'El texto SÍ contiene el patrón "g+" (ej: "programing.")' ).
