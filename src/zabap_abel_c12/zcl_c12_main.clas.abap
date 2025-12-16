@@ -25,6 +25,15 @@ CLASS zcl_c12_main IMPLEMENTATION.
     "Sirve para validar mi componente o todos los componentes de un paquete con clic derecho -> Run As -> ABAP Test Cockpit"
     "Con esto podemos ver avisos que pueden llegar a ser errores que podemos corregir para dejar el código lo más limpio posible"
 
+    "Para habilitar estas vistas lo que tenemos que hacer es ir a Window -> Show View -> Other -> ATC"
+
+
+    "Otros componentes son los objetos de autorización para validar que el usuario que está ejecutando el código tenga autorización sobre ciertos"
+    "componentes del sistema"
+
+    "Para crearlo tenemos que hacer clic derecho en nuestro paquete -> New -> Other ABAP Repository Object y buscamos auth y seleccionamos"
+    "Authorization Field. El Authorization Field debe estar asociado a un elemento de datos que tenga que ver con el objeto"
+
   ENDMETHOD.
 
 ENDCLASS.
