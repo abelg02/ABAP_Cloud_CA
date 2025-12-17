@@ -34,6 +34,20 @@ CLASS zcl_c12_main IMPLEMENTATION.
     "Para crearlo tenemos que hacer clic derecho en nuestro paquete -> New -> Other ABAP Repository Object y buscamos auth y seleccionamos"
     "Authorization Field. El Authorization Field debe estar asociado a un elemento de datos que tenga que ver con el objeto"
 
+    "Hacer la validación"
+
+    DATA: lv_country_code TYPE land1 VALUE 'ES'.
+
+    AUTHORITY-CHECK OBJECT '/DMO/TRVL'
+    ID '/DMO/CNTRY' FIELD lv_country_code
+    ID '/ACTVT' FIELD '01'.
+
+    IF sy-subrc = 0.
+      out->write( 'You have authority' ).
+    ELSE.
+      out->write( 'You dont have authority' ).
+    ENDIF.
+
   ENDMETHOD.
 
 ENDCLASS.
