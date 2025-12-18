@@ -303,7 +303,8 @@ CLASS zcl_c02_main IMPLEMENTATION.
       out->write( 'The text doesn´t contains a phone number' ).
     ENDIF.
 
-    "Extrae el primer valor que cumpla el patrón"
+    "Extrae el primer valor que cumpla el patrón, es decir, en este caso extraeríamos únicamente el número de teléfono. Si hubiera más números"
+    "de teléfono extraeríamos el primero"
     DATA(lv_number) = match( val = lv_text pcre = lv_pattern occ = 1 ).
     out->write( lv_number ).
 
@@ -338,6 +339,7 @@ CLASS zcl_c02_main IMPLEMENTATION.
     DATA(lv_fin_string) = |Concatenation 1: { lv_string_concatenation_a } / { lv_string_concatenation_b } |.
     out->write( lv_fin_string ).
 
+    "Forma antigua"
     CONCATENATE lv_string_concatenation_a lv_string_concatenation_b INTO DATA(lv_fin_string2) SEPARATED BY ' '.
     out->write( |Concatenation 2: { lv_fin_string2 } | ).
 
