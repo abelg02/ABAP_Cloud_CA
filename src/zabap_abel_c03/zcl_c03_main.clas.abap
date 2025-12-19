@@ -286,7 +286,7 @@ CLASS ZCL_C03_MAIN IMPLEMENTATION.
           out->write( |Monto válido para procesamiento: { lv_monto_numero }| ).
         ENDIF.
       CATCH cx_sy_conversion_error INTO DATA(lx_error).
-        out->write( | Error de conversión: { lx_error->get_text(  ) }| ).
+        out->write( |Error de conversión: { lx_error->get_text(  ) }| ).
     ENDTRY.
 
     out->write( | | ).
@@ -298,8 +298,8 @@ CLASS ZCL_C03_MAIN IMPLEMENTATION.
         lv_monto_numero = lv_monto_texto.
         out->write( |Conversión exitosa: { lv_monto_numero }| ).
       CATCH cx_sy_conversion_error INTO lx_error.
-        out->write( | No se pudo convertir "{ lv_monto_texto }" a número| ).
-        out->write( | Razón: { lx_error->get_text( ) }| ).
+        out->write( |No se pudo convertir "{ lv_monto_texto }" a número| ).
+        out->write( |Razón: { lx_error->get_text( ) }| ).
     ENDTRY.
 
 
