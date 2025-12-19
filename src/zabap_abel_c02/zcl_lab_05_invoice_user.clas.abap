@@ -56,7 +56,7 @@ CLASS zcl_lab_05_invoice_user IMPLEMENTATION.
 *
 *MV_CASE2
 *
-*Asignar a MV_CASE1 el valor "Sales invoice with status in process" y dejar solo un espacio entre palabras.
+*Asignar a MV_CASE1 el valor "Sales invoice with         status in process" y dejar solo un espacio entre palabras.
 *
 *Asignar a MV_CASE2 el valor "***ABAP*Cloud***" y eliminar todos los caracteres "*".
 *
@@ -120,6 +120,106 @@ CLASS zcl_lab_05_invoice_user IMPLEMENTATION.
     mv_invoice_code = |{ mv_exercise }/{ mv_invoice_no }|.
 
     out->write( |Concatenación: { mv_invoice_code }| ).
+
+
+    "2. Concatenación de líneas de tablas
+    DATA: lt_employees TYPE TABLE OF zemp_logali,
+          ls_employee  TYPE zemp_logali,
+          lv_lines     TYPE string.
+
+    "Realizar consulta a la tabla ZEMP_LOGALI
+    SELECT * FROM zemp_logali INTO TABLE @lt_employees.
+
+    "Concatenar campos de cada registro con espacio
+    LOOP AT lt_employees INTO ls_employee.
+      CONCATENATE lv_lines ls_employee-id ls_employee-name ls_employee-client
+                  INTO lv_lines SEPARATED BY space.
+    ENDLOOP.
+
+    out->write( |Concatenación de empleados: { lv_lines }| ).
+
+
+
+
+    "3. Condensación
+    "------------------------------
+    DATA: mv_case1 TYPE string VALUE 'Sales invoice with         status in process',
+          mv_case2 TYPE string VALUE '***ABAP*Cloud***'.
+
+    "Dejar solo un espacio entre palabras
+    CONDENSE mv_case1.
+    out->write( |Condensación MV_CASE1: { mv_case1 }| ).
+
+    "Eliminar todos los caracteres '*'
+    REPLACE ALL OCCURRENCES OF '*' IN mv_case2 WITH ''.
+    out->write( |Condensación MV_CASE2: { mv_case2 }| ).
+
+
+    "4. SPLIT
+    "------------------------------
+    DATA: mv_data        TYPE string VALUE '0001111111;LOGALI GROUP;2024',
+          mv_id_customer TYPE string,
+          mv_customer    TYPE string,
+          mv_year        TYPE string.
+
+    SPLIT mv_data AT ';' INTO mv_id_customer mv_customer mv_year.
+    out->write( |SPLIT ID Customer: { mv_id_customer }| ).
+    out->write( |SPLIT Customer: { mv_customer }| ).
+    out->write( |SPLIT Year: { mv_year }| ).
+
+
+    "5. SHIFT
+    "------------------------------
+    DATA mv_invoice_num TYPE string VALUE '2015ABCD'.
+
+    out->write( |SHIFT - Valor original: { mv_invoice_num }| ).
+
+    "Eliminar 2 caracteres al inicio usando shift_left
+    DATA(lv_sin_inicio) = shift_left( val = mv_invoice_num places = 2 ).
+    out->write( |SHIFT_LEFT (2 posiciones): { lv_sin_inicio }| ).
+
+    "Ahora eliminar 2 caracteres al final del resultado anterior
+    "Para eliminar del final, usamos substring o una combinación
+    DATA(lv_final) = substring( val = lv_sin_inicio len = strlen( lv_sin_inicio ) - 2 ).
+    out->write( |SHIFT - Resultado final (sin 2 del inicio y 2 del final): { lv_final }| ).
+
+
+    "6. Funciones STRLEN y NUMOFCHAR
+    "------------------------------
+    DATA mv_response TYPE string VALUE ' Generating Invoice '.
+    DATA lv_count TYPE i.
+
+    "Usando strlen()
+    lv_count = strlen( mv_response ).
+    out->write( |STRLEN de MV_RESPONSE: { lv_count }| ).
+
+    "Usando numofchar()
+    lv_count = numofchar( mv_response ).
+    out->write( |NUMOFCHAR de MV_RESPONSE: { lv_count }| ).
+
+
+    "7. TO_LOWER y TO_UPPER
+    "------------------------------
+    DATA mv_translate_invoice TYPE string VALUE 'Report the issuance of this invoice'.
+
+    TRANSLATE mv_translate_invoice TO UPPER CASE.
+    out->write( |TO_UPPER: { mv_translate_invoice }| ).
+
+    TRANSLATE mv_translate_invoice TO LOWER CASE.
+    out->write( |TO_LOWER: { mv_translate_invoice }| ).
+
+
+    "8. INSERT y REVERSE
+    "------------------------------
+    "Insertar al final la cadena ' to client'
+    mv_translate_invoice = insert( val = mv_translate_invoice sub = ' to client' off = strlen( mv_translate_invoice ) ).
+    out->write( |INSERT: { mv_translate_invoice }| ).
+
+    "Invertir el contenido de la variable
+    DATA(lv_reversed) = reverse( val = mv_translate_invoice ).
+    out->write( |REVERSE: { lv_reversed }| ).
+
+
 
 
 
