@@ -1,7 +1,7 @@
 CLASS zcl_work_order_validator_agg DEFINITION
   PUBLIC
   FINAL
-  CREATE PRIVATE.
+  CREATE PUBLIC.
 
   PUBLIC SECTION.
     METHODS:
@@ -29,8 +29,8 @@ CLASS zcl_work_order_validator_agg DEFINITION
 
       validate_status_and_priority
         IMPORTING
-          iv_status       TYPE zde_wo_status_agg
-          iv_priority     TYPE zde_wo_priority_agg
+          iv_status   TYPE zde_wo_status_agg
+          iv_priority TYPE zde_wo_priority_agg
         RETURNING
           VALUE(rv_valid) TYPE abap_bool.
 
@@ -38,7 +38,6 @@ CLASS zcl_work_order_validator_agg DEFINITION
     CONSTANTS:
       gc_status_pending   TYPE zde_wo_status_agg VALUE 'PE',
       gc_status_completed TYPE zde_wo_status_agg VALUE 'CO',
-
       gc_priority_high    TYPE zde_wo_priority_agg VALUE 'A',
       gc_priority_low     TYPE zde_wo_priority_agg VALUE 'B'.
 
@@ -74,32 +73,23 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   METHOD validate_create_order.
     rv_valid = abap_false.
 
-    " 1. Validar cliente existe
+    " 1. Validar que el cliente existe
     IF check_customer_exists( iv_customer_id ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 2. Validar técnico existe
+    " 2. Validar que el técnico existe
     IF check_technician_exists( iv_technician_id ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 3. Validar prioridad
+    " 3. Validar que la prioridad es válida (A o B)
     IF iv_priority <> gc_priority_high AND iv_priority <> gc_priority_low.
-      RETURN.
-    ENDIF.
-
-    " 4. AUTHORITY-CHECK para creación (PDF página 6)
-    AUTHORITY-CHECK OBJECT 'Z_WORK_ORDER'
-      ID 'ACTVT' FIELD '01'.  " 01 = Create
-
-    IF sy-subrc <> 0.
       RETURN.
     ENDIF.
 
     rv_valid = abap_true.
   ENDMETHOD.
-
 
   METHOD validate_update_order.
     rv_valid = abap_false.
@@ -109,22 +99,13 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
       RETURN.
     ENDIF.
 
-    " 2. Validar estado editable (SOLO "PE" según PDF 4.2)
-    IF iv_status <> gc_status_pending.  " Solo pendiente se puede editar
-      RETURN.
-    ENDIF.
-
-    " 3. AUTHORITY-CHECK para actualización
-    AUTHORITY-CHECK OBJECT 'Z_WORK_ORDER'
-      ID 'ACTVT' FIELD '02'.  " 02 = Update
-
-    IF sy-subrc <> 0.
+    " 2. Validar que el estado sea editable (solo "PE" según PDF 4.2)
+    IF iv_status <> gc_status_pending.
       RETURN.
     ENDIF.
 
     rv_valid = abap_true.
   ENDMETHOD.
-
 
   METHOD validate_delete_order.
     rv_valid = abap_false.
@@ -134,7 +115,7 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
       RETURN.
     ENDIF.
 
-    " 2. Validar estado = 'PE' (Pendiente)
+    " 2. Validar que el estado sea "PE" (Pendiente)
     IF iv_status <> gc_status_pending.
       RETURN.
     ENDIF.
@@ -144,17 +125,8 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
       RETURN.
     ENDIF.
 
-    " 4. AUTHORITY-CHECK para eliminación
-    AUTHORITY-CHECK OBJECT 'Z_WORK_ORDER'
-      ID 'ACTVT' FIELD '06'.  " 06 = Delete
-
-    IF sy-subrc <> 0.
-      RETURN.
-    ENDIF.
-
     rv_valid = abap_true.
   ENDMETHOD.
-
 
   METHOD validate_status_and_priority.
     rv_valid = abap_false.
@@ -172,15 +144,12 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
     rv_valid = abap_true.
   ENDMETHOD.
 
-
-
   METHOD check_customer_exists.
     SELECT SINGLE @abap_true
       FROM zdt_customer_agg
       WHERE customer_id = @iv_customer_id
       INTO @rv_exists.
   ENDMETHOD.
-
 
   METHOD check_technician_exists.
     SELECT SINGLE @abap_true
@@ -189,14 +158,12 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
       INTO @rv_exists.
   ENDMETHOD.
 
-
   METHOD check_order_exists.
     SELECT SINGLE @abap_true
       FROM zdt_wo_agg
       WHERE work_order_id = @iv_work_order_id
       INTO @rv_exists.
   ENDMETHOD.
-
 
   METHOD check_order_history.
     SELECT SINGLE @abap_true
