@@ -89,37 +89,63 @@ CLASS zcl_wo_crud_handler_agg IMPLEMENTATION.
   METHOD update_work_order.
     rv_success = abap_false.
 
-    " 1. Obtener estado actual
-    DATA(lv_current_status) = get_current_status( iv_work_order_id ).
+    " 1. Leer orden actual
+    DATA ls_current TYPE zdt_wo_agg.
+
+    SELECT SINGLE *
+      FROM zdt_wo_agg
+      WHERE work_order_id = @iv_work_order_id
+      INTO @ls_current.
+
+    IF sy-subrc <> 0.
+      RETURN. " No existe
+    ENDIF.
 
     " 2. Validar si se puede actualizar
     DATA(lo_validator) = NEW zcl_work_order_validator_agg( ).
+
     IF lo_validator->validate_update_order(
          iv_work_order_id = iv_work_order_id
-         iv_status        = lv_current_status
+         iv_status        = ls_current-status
        ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 3. Actualizar solo los campos proporcionados
-    UPDATE zdt_wo_agg
-      SET customer_id   = @is_changes-customer_id,
-          technician_id = @is_changes-technician_id,
-          status        = @is_changes-status,
-          priority      = @is_changes-priority,
-          description   = @is_changes-description
-      WHERE work_order_id = @iv_work_order_id.
+    " 3. Aplicar SOLO los cambios informados
+    IF is_changes-customer_id IS NOT INITIAL.
+      ls_current-customer_id = is_changes-customer_id.
+    ENDIF.
+
+    IF is_changes-technician_id IS NOT INITIAL.
+      ls_current-technician_id = is_changes-technician_id.
+    ENDIF.
+
+    IF is_changes-status IS NOT INITIAL.
+      ls_current-status = is_changes-status.
+    ENDIF.
+
+    IF is_changes-priority IS NOT INITIAL.
+      ls_current-priority = is_changes-priority.
+    ENDIF.
+
+    IF is_changes-description IS NOT INITIAL.
+      ls_current-description = is_changes-description.
+    ENDIF.
+
+    " 4. Actualizar BD
+    UPDATE zdt_wo_agg FROM @ls_current.
 
     IF sy-subrc = 0.
       rv_success = abap_true.
 
-      " 4. Registrar en historial
       log_history(
         iv_work_order_id = iv_work_order_id
         iv_description   = 'Orden actualizada'
       ).
     ENDIF.
+
   ENDMETHOD.
+
 
   METHOD delete_work_order.
     rv_success = abap_false.

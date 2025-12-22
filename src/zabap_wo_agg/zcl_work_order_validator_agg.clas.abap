@@ -73,17 +73,14 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   METHOD validate_create_order.
     rv_valid = abap_false.
 
-    " 1. Validar que el cliente existe
     IF check_customer_exists( iv_customer_id ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 2. Validar que el técnico existe
     IF check_technician_exists( iv_technician_id ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 3. Validar que la prioridad es válida (A o B)
     IF iv_priority <> gc_priority_high AND iv_priority <> gc_priority_low.
       RETURN.
     ENDIF.
@@ -94,12 +91,11 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   METHOD validate_update_order.
     rv_valid = abap_false.
 
-    " 1. Validar que la orden existe
     IF check_order_exists( iv_work_order_id ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 2. Validar que el estado sea editable (solo "PE" según PDF 4.2)
+    " Solo se permite actualizar si está pendiente
     IF iv_status <> gc_status_pending.
       RETURN.
     ENDIF.
@@ -110,17 +106,14 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   METHOD validate_delete_order.
     rv_valid = abap_false.
 
-    " 1. Validar que la orden existe
     IF check_order_exists( iv_work_order_id ) = abap_false.
       RETURN.
     ENDIF.
 
-    " 2. Validar que el estado sea "PE" (Pendiente)
     IF iv_status <> gc_status_pending.
       RETURN.
     ENDIF.
 
-    " 3. Validar que NO tenga historial
     IF check_order_history( iv_work_order_id ) = abap_true.
       RETURN.
     ENDIF.
@@ -131,12 +124,10 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   METHOD validate_status_and_priority.
     rv_valid = abap_false.
 
-    " 1. Validar estado
     IF iv_status <> gc_status_pending AND iv_status <> gc_status_completed.
       RETURN.
     ENDIF.
 
-    " 2. Validar prioridad
     IF iv_priority <> gc_priority_high AND iv_priority <> gc_priority_low.
       RETURN.
     ENDIF.
@@ -145,31 +136,52 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD check_customer_exists.
-    SELECT SINGLE @abap_true
-      FROM zdt_customer_agg
-      WHERE customer_id = @iv_customer_id
-      INTO @rv_exists.
+    rv_exists = abap_false.
+    TRY.
+        SELECT SINGLE @abap_true
+          FROM zdt_customer_agg
+          WHERE customer_id = @iv_customer_id
+          INTO @rv_exists.
+    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+        rv_exists = abap_false.
+    ENDTRY.
   ENDMETHOD.
 
   METHOD check_technician_exists.
-    SELECT SINGLE @abap_true
-      FROM zdt_tech_agg
-      WHERE technician_id = @iv_technician_id
-      INTO @rv_exists.
+    rv_exists = abap_false.
+    TRY.
+        SELECT SINGLE @abap_true
+          FROM zdt_tech_agg
+          WHERE technician_id = @iv_technician_id
+          INTO @rv_exists.
+    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+        rv_exists = abap_false.
+    ENDTRY.
   ENDMETHOD.
 
   METHOD check_order_exists.
-    SELECT SINGLE @abap_true
-      FROM zdt_wo_agg
-      WHERE work_order_id = @iv_work_order_id
-      INTO @rv_exists.
+    rv_exists = abap_false.
+    TRY.
+        SELECT SINGLE @abap_true
+          FROM zdt_wo_agg
+          WHERE work_order_id = @iv_work_order_id
+          INTO @rv_exists.
+    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+        rv_exists = abap_false.
+    ENDTRY.
   ENDMETHOD.
 
   METHOD check_order_history.
-    SELECT SINGLE @abap_true
-      FROM zdt_wo_hist_agg
-      WHERE work_order_id = @iv_work_order_id
-      INTO @rv_exists.
+    rv_exists = abap_false.
+    TRY.
+        SELECT SINGLE @abap_true
+          FROM zdt_wo_hist_agg
+          WHERE work_order_id = @iv_work_order_id
+          INTO @rv_exists.
+    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+        rv_exists = abap_false.
+    ENDTRY.
   ENDMETHOD.
 
 ENDCLASS.
+
