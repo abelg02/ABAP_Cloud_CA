@@ -1,14 +1,13 @@
-CLASS zcl_c07_c08_practice_01 DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
+class ZCL_C07_C08_PRACTICE_01 definition
+  public
+  create private .
 
-  PUBLIC SECTION.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+public section.
+protected section.
+private section.
 ENDCLASS.
 
 
 
-CLASS zcl_c07_c08_practice_01 IMPLEMENTATION.
+CLASS ZCL_C07_C08_PRACTICE_01 IMPLEMENTATION.
 ENDCLASS.

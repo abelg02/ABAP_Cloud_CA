@@ -184,4 +184,3 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
   ENDMETHOD.
 
 ENDCLASS.
-
