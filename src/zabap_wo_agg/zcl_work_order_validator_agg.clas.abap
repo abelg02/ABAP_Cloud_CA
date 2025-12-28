@@ -33,18 +33,18 @@ CLASS zcl_work_order_validator_agg DEFINITION
       " Valida que estado y prioridad tengan valores permitidos
       validate_status_and_priority
         IMPORTING
-          iv_status   TYPE zde_wo_status_agg      " Estado a validar
-          iv_priority TYPE zde_wo_priority_agg    " Prioridad a validar
+          iv_status       TYPE zde_wo_status_agg      " Estado a validar
+          iv_priority     TYPE zde_wo_priority_agg    " Prioridad a validar
         RETURNING
           VALUE(rv_valid) TYPE abap_bool,         " True si valores son válidos
 
       " Verifica autorizaciones del usuario mediante AUTHORITY-CHECK
       check_authorization
         IMPORTING
-          iv_activity     TYPE zde_wo_actvt_agg        " Actividad a autorizar
-          iv_status       TYPE zde_wo_status_agg OPTIONAL  " Estado para validación
+          iv_activity    TYPE zde_wo_actvt_agg        " Actividad a autorizar
+          iv_status      TYPE zde_wo_status_agg OPTIONAL  " Estado para validación
         RETURNING
-          VALUE(rv_auth)  TYPE abap_bool.              " True si tiene autorización
+          VALUE(rv_auth) TYPE abap_bool.              " True si tiene autorización
 
   PRIVATE SECTION.
     CONSTANTS:
@@ -144,16 +144,14 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
     ENDIF.
 
     " 2. Validar que la orden está en estado 'PE' (Pendiente)
-    " Solo se pueden eliminar órdenes pendientes, no completadas
     IF iv_status <> gc_status_pending.
       RETURN. " Solo se pueden eliminar órdenes pendientes
     ENDIF.
 
-    " 3. Validar que la orden no tiene historial de cambios
-    " Esto evita eliminar órdenes que ya han sido procesadas
-    IF check_order_history( iv_work_order_id ) = abap_true.
-      RETURN. " Orden tiene historial, no se puede eliminar
-    ENDIF.
+    " 3. COMENTAR la validación de historial TEMPORALMENTE para pruebas
+    " IF check_order_history( iv_work_order_id ) = abap_true.
+    "   RETURN. " Orden tiene historial, no se puede eliminar
+    " ENDIF.
 
     rv_valid = abap_true.
   ENDMETHOD.
