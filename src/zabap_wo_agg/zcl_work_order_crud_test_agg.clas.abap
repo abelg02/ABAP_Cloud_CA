@@ -9,7 +9,7 @@ CLASS zcl_work_order_crud_test_agg DEFINITION
   PRIVATE SECTION.
     DATA:
       " Variables para compartir IDs entre tests
-      gv_test_customer_id  TYPE zde_customer_id_agg,
+      gv_test_customer_id   TYPE zde_customer_id_agg,
       gv_test_technician_id TYPE zde_technician_id_agg,
       gv_test_work_order_id TYPE zde_work_order_id_agg.
 
@@ -44,8 +44,17 @@ ENDCLASS.
 
 CLASS zcl_work_order_crud_test_agg IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
+
+    " Advertencia sobre autorizaciones requeridas
+    out->write( '--- Pruebas requieren permisos completos ---' ).
+    out->write( '   Objeto de autorización: ZAC_WO_AGG' ).
+    out->write( '   Actividades necesarias: 01, 02, 03, 04' ).
+    out->write( '   Estados: PE, CO' ).
+    out->write( '   Si fallan las pruebas, verificar permisos del usuario' ).
+    out->write( '' ).
+
     out->write( '==========================================' ).
-    out->write( ' PRUEBAS CRUD - ÓRDENES DE TRABAJO (V2.0)' ).
+    out->write( ' PRUEBAS CRUD - ÓRDENES DE TRABAJO' ).
     out->write( '==========================================' ).
     out->write( '' ).
 

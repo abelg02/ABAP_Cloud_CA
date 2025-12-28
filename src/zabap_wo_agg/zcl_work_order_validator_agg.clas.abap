@@ -32,14 +32,29 @@ CLASS zcl_work_order_validator_agg DEFINITION
           iv_status   TYPE zde_wo_status_agg
           iv_priority TYPE zde_wo_priority_agg
         RETURNING
-          VALUE(rv_valid) TYPE abap_bool.
+          VALUE(rv_valid) TYPE abap_bool,
+
+      " Método para validar autorizaciones
+      check_authorization
+        IMPORTING
+          iv_activity     TYPE zde_wo_actvt_agg
+          iv_status       TYPE zde_wo_status_agg OPTIONAL
+        RETURNING
+          VALUE(rv_auth)  TYPE abap_bool.
 
   PRIVATE SECTION.
     CONSTANTS:
+      " Estados y prioridades
       gc_status_pending   TYPE zde_wo_status_agg VALUE 'PE',
       gc_status_completed TYPE zde_wo_status_agg VALUE 'CO',
       gc_priority_high    TYPE zde_wo_priority_agg VALUE 'A',
-      gc_priority_low     TYPE zde_wo_priority_agg VALUE 'B'.
+      gc_priority_low     TYPE zde_wo_priority_agg VALUE 'B',
+
+      " Actividades para AUTHORITY-CHECK
+      gc_actvt_create     TYPE zde_wo_actvt_agg VALUE '01',  " Crear
+      gc_actvt_change     TYPE zde_wo_actvt_agg VALUE '02',  " Cambiar
+      gc_actvt_display    TYPE zde_wo_actvt_agg VALUE '03',  " Mostrar
+      gc_actvt_delete     TYPE zde_wo_actvt_agg VALUE '04'.  " Eliminar
 
     METHODS:
       check_customer_exists
@@ -142,7 +157,7 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
           FROM zdt_customer_agg
           WHERE customer_id = @iv_customer_id
           INTO @rv_exists.
-    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+      CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
         rv_exists = abap_false.
     ENDTRY.
   ENDMETHOD.
@@ -154,7 +169,7 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
           FROM zdt_tech_agg
           WHERE technician_id = @iv_technician_id
           INTO @rv_exists.
-    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+      CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
         rv_exists = abap_false.
     ENDTRY.
   ENDMETHOD.
@@ -166,7 +181,7 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
           FROM zdt_wo_agg
           WHERE work_order_id = @iv_work_order_id
           INTO @rv_exists.
-    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+      CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
         rv_exists = abap_false.
     ENDTRY.
   ENDMETHOD.
@@ -178,9 +193,29 @@ CLASS zcl_work_order_validator_agg IMPLEMENTATION.
           FROM zdt_wo_hist_agg
           WHERE work_order_id = @iv_work_order_id
           INTO @rv_exists.
-    CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
+      CATCH cx_sy_open_sql_db INTO DATA(lx_sql).
         rv_exists = abap_false.
     ENDTRY.
+  ENDMETHOD.
+
+  METHOD check_authorization.
+    rv_auth = abap_false.
+
+    " Si no viene status, usar espacio para el authority-check
+    DATA(lv_status) = COND zde_wo_status_agg(
+      WHEN iv_status IS NOT INITIAL THEN iv_status
+      ELSE space
+    ).
+
+    " Ejecutar el authority-check con nuestro objeto
+    AUTHORITY-CHECK OBJECT 'ZAC_WO_AGG'  " Tu objeto de autorización
+      ID 'Z_ACTVT' FIELD iv_activity
+      ID 'Z_STATUS' FIELD lv_status.
+
+    " sy-subrc = 0 significa autorización concedida
+    IF sy-subrc = 0.
+      rv_auth = abap_true.
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.

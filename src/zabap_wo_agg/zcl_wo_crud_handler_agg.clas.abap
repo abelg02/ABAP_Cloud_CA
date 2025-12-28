@@ -48,8 +48,17 @@ CLASS zcl_wo_crud_handler_agg IMPLEMENTATION.
   METHOD create_work_order.
     rv_success = abap_false.
 
-    " 1. Validar datos antes de crear
+    " Validar autorización para CREAR (01)
     DATA(lo_validator) = NEW zcl_work_order_validator_agg( ).
+    IF lo_validator->check_authorization(
+         iv_activity = '01'        " Crear
+         iv_status   = 'PE'        " Estado inicial de nueva orden
+       ) = abap_false.
+      " Usuario no tiene permiso para crear órdenes
+      RETURN.
+    ENDIF.
+
+    " 1. Validar datos antes de crear
     IF lo_validator->validate_create_order(
          iv_customer_id  = is_work_order-customer_id
          iv_technician_id = is_work_order-technician_id
@@ -71,6 +80,17 @@ CLASS zcl_wo_crud_handler_agg IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD read_work_order.
+    CLEAR rs_work_order.
+
+    " Validar autorización para MOSTRAR (03)
+    DATA(lo_validator) = NEW zcl_work_order_validator_agg( ).
+    IF lo_validator->check_authorization(
+         iv_activity = '03'  " Mostrar
+       ) = abap_false.
+      " Usuario no tiene permiso para ver órdenes
+      RETURN.
+    ENDIF.
+
     " Leer orden por ID
     SELECT SINGLE * FROM zdt_wo_agg
       WHERE work_order_id = @iv_work_order_id
@@ -83,6 +103,18 @@ CLASS zcl_wo_crud_handler_agg IMPLEMENTATION.
   METHOD update_work_order.
     rv_success = abap_false.
 
+    " Validar autorización para CAMBIAR (02) del estado actual
+    DATA(lv_current_status) = get_current_status( iv_work_order_id ).
+
+    DATA(lo_validator) = NEW zcl_work_order_validator_agg( ).
+    IF lo_validator->check_authorization(
+         iv_activity = '02'               " Cambiar
+         iv_status   = lv_current_status  " Estado actual
+       ) = abap_false.
+      " Usuario no tiene permiso para modificar órdenes en este estado
+      RETURN.
+    ENDIF.
+
     " 1. Leer orden actual
     DATA ls_current TYPE zdt_wo_agg.
     SELECT SINGLE * FROM zdt_wo_agg
@@ -93,7 +125,6 @@ CLASS zcl_wo_crud_handler_agg IMPLEMENTATION.
     ENDIF.
 
     " 2. Validar si se puede actualizar
-    DATA(lo_validator) = NEW zcl_work_order_validator_agg( ).
     IF lo_validator->validate_update_order(
          iv_work_order_id = iv_work_order_id
          iv_status        = ls_current-status
@@ -136,11 +167,22 @@ CLASS zcl_wo_crud_handler_agg IMPLEMENTATION.
   METHOD delete_work_order.
     rv_success = abap_false.
 
-    " 1. Obtener estado actual
+    " Validar autorización para ELIMINAR (04) del estado actual
     DATA(lv_current_status) = get_current_status( iv_work_order_id ).
 
-    " 2. Validar si se puede eliminar
     DATA(lo_validator) = NEW zcl_work_order_validator_agg( ).
+    IF lo_validator->check_authorization(
+         iv_activity = '04'               " Eliminar
+         iv_status   = lv_current_status  " Estado actual
+       ) = abap_false.
+      " Usuario no tiene permiso para eliminar órdenes en este estado
+      RETURN.
+    ENDIF.
+
+    " 1. Obtener estado actual
+    " (Ya lo tenemos en lv_current_status, pero mantenemos por claridad)
+
+    " 2. Validar si se puede eliminar
     IF lo_validator->validate_delete_order(
          iv_work_order_id = iv_work_order_id
          iv_status        = lv_current_status
