@@ -6,12 +6,12 @@
 
 Clases, ejercicios y proyecto final del **máster de SAP ABAP Cloud**, desarrollados en **SAP BTP (ABAP Environment)** con Eclipse ADT y sincronizados con GitHub mediante **abapGit**.
 
-[![abaplint](https://github.com/abelg02/abap-cloud-cero-a-avanzado/actions/workflows/abaplint.yml/badge.svg)](https://github.com/abelg02/abap-cloud-cero-a-avanzado/actions/workflows/abaplint.yml)
+[![abaplint](https://github.com/abelg02/ABAP_Cloud_CA/actions/workflows/abaplint.yml/badge.svg)](https://github.com/abelg02/ABAP_Cloud_CA/actions/workflows/abaplint.yml)
 ![ABAP Cloud](https://img.shields.io/badge/ABAP-Cloud-0a6ed1?logo=sap&logoColor=white)
 ![SAP BTP](https://img.shields.io/badge/SAP%20BTP-ABAP%20Environment-0a6ed1?logo=sap&logoColor=white)
 ![abapGit](https://img.shields.io/badge/abapGit-sincronizado-f0ab00)
 
-Segunda parte: [ABAP Cloud · de avanzado a experto](https://github.com/abelg02/abap-cloud-avanzado-a-experto)
+Segunda parte: [ABAP Cloud · de avanzado a experto](https://github.com/abelg02/ABAP_Cloud_AE)
 
 </div>
 
