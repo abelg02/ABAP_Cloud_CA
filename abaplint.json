@@ -22,7 +22,7 @@
     "check_syntax": true,
     "unknown_types": true,
     "check_ddic": {
-      "exclude": ["ezemp_c07_c08\.enqu", "ztt_emp_addr_c07_c08\.ttyp", "zafcarrc12\.auth"]
+      "exclude": ["ezemp_c07_c08.enqu", "ztt_emp_addr_c07_c08.ttyp", "zafcarrc12.auth"]
     },
     "cloud_types": true,
     "obsolete_statement": true,
